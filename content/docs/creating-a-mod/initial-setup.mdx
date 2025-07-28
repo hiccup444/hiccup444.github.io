@@ -1,0 +1,96 @@
+---
+title: Initial Setup
+description: Learn to set up your environment to get started with making PEAK mods!
+sidebar:
+  order: 0
+---
+
+import { LinkCard, Tabs, TabItem, Steps } from '@astrojs/starlight/components';
+
+Modding might sound complicated, but it's much easier if you start with the right mindset and a simple mod.
+
+:::note
+Pirated versions of the game don't and never will support modding.
+:::
+
+## Install the Requirements
+
+Before you can start modding PEAK, you’ll need to install two essential tools:
+
+- **.NET SDK 8.0 or 9.0** – *This is needed so you can compile C# code.*
+  - [Download .NET here](https://dotnet.microsoft.com/en-us/download)
+- **IDE** – *This is where you'll write and build your code. Choosing one can depend on your preferences and system.*
+  - [Rider](https://www.jetbrains.com/rider/#) (The best all-in-one)
+  - [Visual Studio Code](https://code.visualstudio.com) (Lightweight and customizable)
+  - [Visual Studio](https://visualstudio.microsoft.com/vs/community/) (Widely used in tutorials)
+
+Now that you have .NET and an IDE, we can move on to creating your first mod.
+
+:::caution
+This guide will not cover setting up your IDE. If you're stuck at this point, try watching a video tutorial.
+:::
+
+## Installing BepInEx
+
+### Mod Manager (Recommended)
+
+<Steps>
+1.  <Tabs syncKey="os">
+      <TabItem label="Windows">
+        Download Gale from [Thunderstore](<https://thunderstore.io/c/peak/p/Kesomannen/GaleModManager/>).
+        Open the ZIP file and launch `Gale_1.x.x_x64_en-US.msi` and follow the standard installation steps.
+      </TabItem>
+      <TabItem label="Linux">
+        Install Gale by downloading the correct package for your system from the [GitHub releases](<https://github.com/Kesomannen/gale/releases>). Then install the package.
+      </TabItem>
+    </Tabs>
+2. Open Gale and select "Peak" as the game from the top left, and then you can install Thunderstore mods for the game.
+Select BepInExPack PEAK (pin on top on the list) and install it. You can now launch the game from the button on the top left with BepInEx!
+</Steps>
+
+### Manual
+
+Install the PEAK-specific version of BepInEx from Thunderstore.  
+You can download it from [here](https://thunderstore.io/c/peak/p/BepInEx/BepInExPack_PEAK/).
+
+Unzip the BepInEx download, then copy all of its contents into PEAK’s game directory. You can find the game folder by going to:  
+`Steam > Library > PEAK > Manage > Browse local files`
+
+After copying the files, launch the game once so BepInEx can generate the necessary configuration files. You can then safely close the game.
+
+:::note
+If you've used BepInEx before, you may notice the console window doesn't appear — this is normal.  
+PEAK can be unstable with the console enabled, and the reason is still unknown.
+
+You **can** re-enable the console by opening `BepInEx/config/BepInEx.cfg` and setting `HideManagerGameObject = false`
+:::
+
+## Installing a Decompiler
+
+:::note
+This step is optional but highly recommended if you want to understand or debug PEAK’s code.
+:::
+
+A decompiler allows you to inspect the game’s internal code. This helps you discover useful classes and methods that can be modified using Harmony.
+
+You only need one decompiler. Recommended options:
+
+- [ILSpy](https://github.com/icsharpcode/ILSpy) (best decompilation)
+  - [ILSpyCmd](https://github.com/icsharpcode/ILSpy/tree/master/ICSharpCode.ILSpyCmd) (CLI option)
+  - [ilspy-vscode](https://github.com/icsharpcode/ilspy-vscode) (Visual Studio Code extension)
+- [dnSpy](https://github.com/dnSpyEx/dnSpy)
+- [dotPeek](https://www.jetbrains.com/decompiler/#)
+
+:::caution
+Many of these options are not natively supported on Linux. [ILSpyCmd](https://github.com/icsharpcode/ILSpy/tree/master/ICSharpCode.ILSpyCmd) is recommended in this case as it can output a full C# project which can be viewed in any IDE, which for pure C# viewing can be a better experience than any other option. If you are using Visual Studio Code, [ilspy-vscode](https://github.com/icsharpcode/ilspy-vscode) can be used for viewing IL, although a standalone app would be better for this.
+
+An [ILSpy Avalonia frontend](https://github.com/icsharpcode/AvaloniaILSpy) also exists that supports Linux, however it doesn't seem to be maintained as of writing and is buggy.
+:::
+
+You’re now ready to move on:
+
+<LinkCard
+  title="Creating a Project"
+  href="/creating-a-mod/creating-a-project/"
+  description="Create a new C# BepInEx 5 project based on a template made for PEAK modding"
+/>

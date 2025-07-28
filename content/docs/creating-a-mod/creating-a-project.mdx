@@ -1,0 +1,164 @@
+---
+title: Creating a Project
+description: Set up a new PEAK BepInEx mod project using the official template.
+sidebar:
+  order: 1
+---
+
+import { LinkCard, LinkButton, FileTree } from '@astrojs/starlight/components';
+
+Creating a mod for PEAK is simple using the official BepInEx template. This guide covers installing the template, generating a project, and configuring it for development.
+
+## Installing
+
+.NET templates must be installed before they can be used. This means that when you install the template, it doesn't create a new project for you, but you will get the ability to do that.
+
+Once you have the template installed, you don't need to install it again, through it's a good idea to update it if there are updates.
+
+<LinkButton href="https://github.com/PEAKModding/BepInExTemplate" variant="minimal" icon="external">
+  See the BepInEx Template repository
+</LinkButton>
+
+:::caution
+You must use .NET SDK 8 or newer. Older versions are unsupported.
+:::
+
+### From NuGet (Recommended)
+
+
+Install the template by running:
+
+```bash
+dotnet new install PEAKModding.BepInExTemplate
+```
+
+### Manual Install
+
+If you're contributing to the template or prefer manual installation:
+
+1. Clone or download [this repository](<https://github.com/PEAKModding/BepInExTemplate>)
+2. Open a terminal in the root of the project
+3. Run:
+
+```bash
+dotnet new install .
+```
+
+To update:
+
+```bash
+dotnet new install . --force
+```
+
+To uninstall:
+
+```bash
+dotnet new uninstall .
+```
+
+Once installed, the template will be available as `PEAK BepInEx Plugin` with an alias `peakmod`.
+
+## Creating a New Mod
+
+Run the following command in your PEAK modding directory:
+
+:::note
+You should set up a Thunderstore team first so you can use its name in the `--ts-team` argument so the template can give you a mostly correctly configured packaging setup.
+
+Create your Thunderstore team here: https://thunderstore.io/settings/teams/create/
+:::
+
+```bash
+dotnet new peakmod --name ModName --guid com.github.YourAccount.ModName --ts-team YourThunderstoreTeam
+```
+
+This will create a new folder called `ModName` with your mod's project.
+
+:::tip
+If you are developing a public API, add the `--library` option for included NuGet metadata!
+:::
+:::tip
+Use `--no-tutorial` to get rid of tutorial comments in the template. Note that this doesn't get rid of *all* comments.
+:::
+
+## Project Structure
+
+This example demonstrates the structure of the project after using the template:
+
+```bash
+~/Workspace/PEAK$ dotnet new peakmod --name PeakMod --guid com.github.PEAKModding --ts-team PEAKModding
+The template "PEAK BepInEx Plugin" was created successfully.
+
+~/Workspace/PEAK$ cd PeakMod/
+```
+
+The file structure in `PeakMod/` should look like this:
+
+<FileTree>
+- CHANGELOG.md
+- Config.Build.user.props.template
+- Directory.Build.props
+- Directory.Build.targets
+- icon.png
+- LICENSE
+- PeakMod.sln
+- README.md
+- src
+  - PeakMod
+    - PeakMod.csproj
+    - Plugin.cs
+    - thunderstore.toml
+</FileTree>
+
+Key points:
+
+- Your mod code is in `./src/<project-name>/`
+- `Directory.Build.*` files define shared build configuration
+- `<project-name>.sln` is your project solution
+
+The project is configured so that it's easy to add new projects into your project solution. Even if you don't need that, it's good to follow this standard project structure.
+
+### Setting Up The Config File
+
+At the root of your new project you should see a file named `Config.Build.user.props.template`. This is a special file that is the template for the project's user-specific config. Make a copy of this file and rename it `Config.Build.user.props` without the template part.
+
+This file will copy your assembly files to a plugins directory and it can be used to configure your paths to the game files and BepInEx plugins directory if the defaults don't work for you.
+
+### Thunderstore Packaging
+
+This template comes with Thunderstore packaging built-in, using [Thunderstore CLI](<https://github.com/thunderstore-io/thunderstore-cli>), aka TCLI. You should configure the `src/<project-name>/thunderstore.toml` file for your mod, such as setting the description for your mod.
+
+You can build Thunderstore packages by running:
+
+```sh
+dotnet build -c Release -target:PackTS -v d
+```
+
+:::note
+You can learn about different build options with `dotnet build --help`.  
+`-c` is short for `--configuration` and `-v d` is `--verbosity detailed`.
+:::
+
+The built package will be found at `artifacts/thunderstore/`.
+
+You can also directly publish to Thunderstore by including `-property:PublishTS=true` in the command.
+
+:::note
+For publishing to Thunderstore, you need a Thunderstore API token. The publishing to Thunderstore option is intended to be used via automated GitHub actions workflows, so you don't need to worry about it.
+:::
+
+### GitHub Actions Publishing
+
+Coming soon.
+
+<LinkCard
+  title="Writing Code"
+  href="/creating-a-mod/writing-code"
+  description="Write your first lines of code in your new mod project"
+/>
+
+<LinkCard
+  title="Publishing Your Mod"
+  href="/creating-a-mod/packaging-and-publishing"
+  description="Upload your mod for everyone to download!"
+/>
